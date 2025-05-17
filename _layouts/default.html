@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% if page.title or page.title == 'me' %}
+        <title>{{ page.title }}</title>
+		<link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/assets/css/002.css">
+    {% else %}
+        <title>{{ site.name }}</title>
+		<link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/assets/css/001.css">
+    {% endif %}
+	<link rel="shortcut icon" href="{{ site.baseurl }}/assets/img/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="{{ site.baseurl }}/assets/img/favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fastly.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+	<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('pre code').forEach(function(block) {
+                hljs.highlightBlock(block);
+            });
+        });
+    </script>
+</head>
+<body>
+	<div class="wrapper">
+		<div class="default_title">
+			<img src="{{ site.baseurl }}/assets/img/mycomputer.png" />
+			{% if page.tag %}
+				<h1>{{ page.tag }}</h1>
+			{% else %}
+				<h1>{{ site.name }}</h1>
+			{% endif %}
+		</div>
+		{% include topbar.html %}
+		<div class="tag_list">
+			<ul id="tag-list">
+				<li><a href="{{ site.baseurl }}" ><img src="{{ site.baseurl }}/assets/img/disk.png" />(C:)</a>
+			<ul>
+				{% assign tags = site.tags | sort %}
+				{% for tag in tags %}
+                <li><a href="{{ site.baseurl }}/tags/{{ tag[0] | slugify }}/" title="{{ tag[0] }}"><img src="{{ site.baseurl }}/assets/img/folder.ico" />{{ tag[0] }}</a></li>
+                {% endfor %}
+			</ul>
+				</li>
+			</ul>
+		</div>
+		<div class="post_list">
+			{% unless page.date%}
+				{% if page.title == 'me' or page.title == '404...' %}
+					<ul>
+						{% for post in site.posts %}
+						<li><a href="{{ site.baseurl }}{{ post.url }}" title="{{ post.title }}"><img src="{{ site.baseurl }}/assets/img/file.ico" title="{{ post.title }}" />{{ post.title }}</a></li>
+						{% endfor %}
+					</ul>
+				{% else %}
+					{{ content }}
+				{% endif %}
+			{% else %}
+				<ul>
+					{% for post in site.posts %}
+					<li><a href="{{ site.baseurl }}{{ post.url }}" title="{{ post.title }}"><img src="{{ site.baseurl }}/assets/img/file.ico" title="{{ post.title }}" />{{ post.title }}</a></li>
+					{% endfor %}
+				</ul>
+			{% endunless %}
+		</div>
+		<div class="post_total">
+			{% if page.tag %}
+				<div class="left">{{ site.tags[page.tag] | size }} object(s)</div>
+			{% else %}
+				<div class="left">{{ site.posts | size }} object(s)</div>
+			{% endif %}
+			<div class="right">&nbsp;</div>
+		</div>
+	</div>
+	{% if page.title %}
+        <div class="content">
+			<div class="post_title">
+				<img src="{{ site.baseurl }}/assets/img/file.png" />
+				<h1>
+                    {% if page.date %}
+                      {{  page.title  }} - {{ page.date | date: '%B %-d, %Y' }}
+                    {% else %}
+                      {{  page.title  }}
+                    {% endif %}
+                </h1>
+				<a href="{{ site.url }}{{ site.baseurl }}"><div class="btn"><span class="fa fa-times"></span></div></a>
+				<div class="btn btn_max"><span class="fa fa-window-maximize"></span></div>
+				<div class="btn"><span class="fa fa-window-minimize"></span></div>
+			</div>
+			<ul class="topbar">
+				<a href="{{ site.url }}{{ site.baseurl }}"><li><u>C</u>lose</li></a>
+                {% if page.previous %}
+                    <a href="{{ site.baseurl }}{{ page.previous.url }}"><li><u>P</u>revious</li></a>
+                {% else %}
+                    <li class="disabled"><span><u>P</u>revious</span></li>
+                {% endif %}
+
+                {% if page.next %}
+                    <a href="{{ site.baseurl }}{{ page.next.url }}"><li><u>N</u>ext</li></a>
+                {% else %}
+                    <li class="disabled"><span><u>N</u>ext</span></li>
+                {% endif %}
+			</ul>
+			<div class="post_content" data-title="{{ page.title }}" data-date="{% if page.date %}{{ page.date | date: '%B %-d, %Y' }}{% endif %}">
+                {{ content }}
+            </div>
+		</div>
+    {% endif %}
+	<script src="{{ site.baseurl }}/assets/js/001.js"></script>
+	<script src="{{ site.baseurl }}/assets/js/002.js"></script>
+	<div class="footer">
+		<p>Copyright © 2020-{{ site.time | date: '%Y' }} {{ site.author.name }} All rights reserved.</p>
+        <p>Deployed on GitHub Pages.</p>
+	</div>
+</body>
+</html>

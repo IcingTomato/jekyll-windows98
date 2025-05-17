@@ -1,0 +1,40 @@
+# Setup
+name: 'Jekyll Windows 98'
+description: ''
+url: 
+baseurl: '/jekyll-windows98'
+permalink:           pretty
+github:              https://github.com/IcingTomato
+twitter:             https://twitter.com/IcingTomato
+rss:                 /atom.xml
+deploy:              GitHub
+
+# About/contact
+author:
+  name:              IcingTomato
+  url:               ''
+  email:             'john.doe@foo.bar'
+
+
+# File management
+include: [".htaccess"]
+exclude: ["README.md", "LICENSE", "generate-tag-pages.bat", "generate-tag-pages.sh"]
+
+# Sass
+sass:
+  style: :compressed
+  sass_dir: _sass
+
+# Markdown
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter: coderay
+  syntax_highlighter_opts:
+    default_lang: text
+    css: style
+    span:
+      line_numbers: false
+    block:
+      line_numbers: false

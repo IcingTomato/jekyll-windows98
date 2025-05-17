@@ -1,0 +1,665 @@
+body {
+    background: #008082;
+    font-family: 'Ubuntu Mono', 'LXGW WenKai Screen', monospace;
+    font-size: 13px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+.wrapper, .content {
+	width: 800px;
+	margin: auto;
+	margin-top: 20px;
+	background: #bfb8bf;
+	border: 2px solid;
+	border-color: #fff8ff #000000 #000000 #fff8ff;
+	padding: 2px 0;
+}
+.default_title, .post_title {
+	padding: 2px 4px 3px 4px;
+	position: relative;
+
+	h1 {
+		color: #bfb8bf;
+		font-size: 14px;
+		font-weight: bold;
+	}
+	
+	img {
+		float: left;
+		width: 14px;
+		height: 14px;
+		margin: 0 3px 0 0;
+	}
+}
+
+.default_title {
+    position: relative;
+
+    h1 {
+        display: inline-block;
+        white-space: nowrap; /* 保持在一行 */
+        overflow: hidden; /* 隐藏溢出内容 */
+        text-overflow: ellipsis; /* 使用省略号 */
+        max-width: calc(100% - 20px); /* 给图标留出空间 */
+        vertical-align: middle; /* 垂直居中 */
+    }
+}
+
+.post_title {
+    position: relative;
+
+	h1 {
+		display: inline-block;
+        white-space: nowrap; /* 保持在一行 */
+        overflow: hidden; /* 隐藏溢出内容 */
+        text-overflow: ellipsis; /* 使用省略号 */
+        max-width: calc(100% - 80px); /* 给按钮留出空间 */
+        vertical-align: middle; /* 垂直居中 */
+	}
+
+	a {
+		color: #000000;
+	}
+
+	.btn {
+		background: #cccccc;
+		width: 13px;
+		height: 11px;
+		float: right;
+		border: 2px solid;
+		border-color: #fff8ff #000000 #000000 #fff8ff;
+
+		span {
+			font-size: 11px;
+			position: relative;
+			left: 2px;
+			top: -2px;
+		}
+
+		.fa-window-minimize {
+			font-size: 10px;
+			left: 1px;
+		}
+
+		.fa-window-maximize {
+			font-size: 10px;
+			left: 1px;
+		}
+	}
+
+	.btn_max {
+		margin: 0 0 0 0;
+	}
+
+	.btn:active {
+		width: 12px;
+		height: 10px;
+	}
+}
+ul.topbar {
+	list-style: none;
+	padding: 0 10px;
+	margin: 3px 0 3px 0;
+
+	li {
+		display: inline-block;
+		margin: 0 5px 0 0;
+	}
+	a {
+		text-decoration: none;
+		color: #000000;
+	}
+}
+
+/* 为禁用的导航链接添加样式 */
+.topbar li.disabled {
+    color: #888888;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* 确保禁用链接的样式有所区别 */
+.topbar li.disabled span {
+    text-decoration: none;
+}
+
+.post_list, .tag_list, .post_content {
+	background: #fff8ff;
+	border-width: 2px;
+	border-style: ridge groove groove ridge;
+	border-color: #7f787f #fff8ff #fff8ff #7f787f;
+}
+.post_list {
+	width: 70.2%;
+	margin: 0 auto;
+	min-height: 150px;
+	max-height: 150px;
+	overflow-y: scroll;
+	display: inline-block;
+
+	ul {
+		list-style: none;
+
+		li {
+			display: inline-block;
+			margin: 10px;
+			max-width: 16ch;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			text-align: center;
+            line-height: 1.4; /* 增加行高，减少遮挡 */
+            padding: 1px 0; /* 添加上下内边距 */
+
+			img {
+				display: block;
+				margin: 0 auto;
+				margin-bottom: 8px;
+			}
+
+			a {
+				text-decoration: none;
+				color: #000000;
+                font-size: 12px; /* 减小字体大小 */
+			}
+		}
+	}
+}
+.tag_list {
+	width: 28%;
+	margin: 0 auto;
+	min-height: 150px;
+	max-height: 150px;
+	overflow-y: scroll;
+	display: inline-block;
+    position: relative; /* 添加 */
+    z-index: 1; /* 添加 */
+
+	img {
+		height: 16px;
+		width: 16px;
+		margin: -2px 5px -2px 5px;
+	}
+
+	a {
+		text-decoration: none;
+		color: #000000;
+        font-size: 12px; /* 减小字体大小 */
+	}
+
+	ul {
+		li {
+			max-width: 50ch;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+            line-height: 1.4; /* 增加行高，减少遮挡 */
+            padding: 1px 0; /* 添加上下内边距 */
+		}
+	}
+}
+#tag-list {
+    background:transparent url(../img/pixel-alt.png) repeat-y 16px 0;
+    position: relative; /* 添加 */
+    z-index: 2; /* 添加 */
+
+    /* 添加伪元素覆盖最后一个元素下方的多余竖线 */
+    &:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 30px; /* 足够宽以覆盖竖线 */
+        height: 8px; /* 足够高以覆盖溢出部分 */
+        background-color: #fff8ff; /* 与背景色相同 */
+        z-index: 2; /* 确保在竖线之上 */
+    }
+}
+
+/* 确保最后一个嵌套li底部没有过多空间 */
+#tag-list li:last-child ul li:last-child {
+    margin-bottom: 0;
+}
+
+#tag-list li {
+    padding:0 0 0 2px;
+}
+#tag-list li a {
+    background: #fff8ff;
+    display:block;
+    position: relative; /* 添加 */
+    z-index: 3; /* 添加 */
+}
+#tag-list li ul li {
+    background:transparent url(../img/pixel-alt.png) repeat-x 0 8px;
+    margin:4px 0 4px 13px;
+    padding:0 0 0 20px;
+    position: relative; /* 添加 */
+    z-index: 3; /* 添加 */
+}
+
+.post_total {
+    width: 100%;
+    display: flex; /* 使用flex布局实现自适应 */
+    flex-wrap: wrap; /* 在小屏幕上允许换行 */
+    box-sizing: border-box;
+    padding: 0 2px;
+    
+    .left, .right {
+        border: 1px solid;
+        border-color: #888888 #dadada #dadada #888888;
+        padding: 2px 4px;
+        box-sizing: border-box; /* 确保padding和border包含在宽度内 */
+    }
+    
+    .left {
+        flex: 1 1 30%; /* 弹性增长和收缩，基础宽度30% */
+        margin-right: 4px;
+        font-size: 11px;
+        min-width: 100px; /* 设置最小宽度防止过度压缩 */
+    }
+    
+    .right {
+        flex: 2 1 65%; /* 弹性增长和收缩，基础宽度65% */
+    }
+}
+
+.post_content {
+	position: relative;
+    width: 98.5%; /* 保持原来的宽度，确保滚动条位置不变 */
+    min-height: 600px;
+    max-height: 600px;
+    padding: 2px; /* 保持外边距不变 */
+    margin: 0 auto;
+    overflow-y: scroll;
+    overflow-x: scroll;
+
+    /* 添加顶部标题空间 */
+    &:before {
+        content: attr(data-title); /* 使用data-title属性作为标题 */
+        display: block;
+        font-size: 22px;
+        font-weight: bold;
+        margin: 25px 0 10px 25px; /* 上右下左边距 */
+        padding-bottom: 10px;
+        width: calc(100% - 60px);
+    }
+    
+    /* 处理没有日期的情况 */
+    &[data-date=""]:after {
+        display: none;
+    }
+    
+    &[data-date=""]:before {
+        border-bottom: 1px solid #cccccc;
+        padding-bottom: 10px;
+        margin-bottom: 25px;
+    }
+
+    /* 添加一个内容包装器，为实际内容增加内边距 */
+    > * {
+        padding-left: 25px;
+        padding-right: 35px;
+    }
+    
+    /* 确保代码块的宽度适应新的内边距 */
+    pre {
+        margin-left: 0;
+        margin-right: 0;
+        width: calc(100% - 40px); /* 考虑左右内边距 */
+        margin-bottom: 25px;
+    }
+
+	p {
+		line-height: 150%;
+		margin-bottom: 15px;
+	}
+
+	p, li, td, th {
+        color: #000000; /* 确保文本是纯黑色 */
+    }
+    
+    a {
+        color: #0000EE; /* 使链接颜色更鲜明 */
+        text-decoration: underline; /* 添加下划线增强可见性 */
+    }
+
+	h1 {
+		font-size: 20px;
+		font-weight: 700;
+		margin: 50px 0 10px 0;
+	}
+
+	h2 {
+		font-size: 18px;
+		font-weight: 700;
+		margin: 25px 0 5px 0;
+	}
+
+	em {
+		font-style: italic;
+	}
+
+	blockquote {
+		padding: 0 0 0 15px;
+		margin: 30px 45px;
+		border-left: 5px solid #000000;
+	}
+
+	strong {
+		font-weight: 700;
+	}
+
+	hr {
+        border-top: 2px dashed #666666; /* 从3px solid改为2px dashed */
+        border-left: 0;
+        margin: 20px auto; /* 增加上下边距，让分割线有更好的视觉间隔 */
+        width: 40%; /* 设置宽度为页面宽度的60% */
+    }
+
+	ul {
+		list-style: square;
+		margin: 0 0 15px 30px;
+
+		li {
+			padding: 5px;
+
+			ul {
+				margin: 10px 0 0 15px;
+
+				li {
+					padding: 5px;
+				}
+			}
+		}
+	}
+
+	ol {
+		list-style: decimal-leading-zero;
+		margin: 0 0 15px 30px;
+
+		li {
+			padding: 5px;
+
+			ul {
+				margin: 10px 0 0 15px;
+
+				li {
+					padding: 5px;
+				}
+			}
+		}
+	}
+
+	table {
+        margin: 0 auto; /* 表格居中 */
+        width: 85%; /* 表格宽度 */
+        border-collapse: collapse; /* 合并边框 */
+        margin-bottom: 15px; /* 底部间距 */
+    }
+    
+    th, td {
+        border: 1px solid #222222;
+        padding: 6px; /* 增加单元格内边距 */
+        text-align: center; /* 单元格内容居中 */
+    }
+    
+    th {
+        background-color: #f0f0f0; /* 表头背景色 */
+        font-weight: bold; /* 表头字体加粗 */
+    }
+
+    img {
+        display: block;
+        max-width: 95%; /* 统一使用95%宽度限制 */
+        height: auto; /* 保持宽高比 */
+        margin: 25px auto; /* 上下边距25px，左右自动（居中） */
+        border: 1px solid #e5e5e5; /* 轻微边框 */
+    }
+    
+    /* 小屏幕上的响应处理 */
+    @media only screen and (max-width: 769px) {
+        img {
+            max-width: 98%; /* 在小屏幕上允许更大的宽度 */
+        }
+    }
+
+    /* 为中文内容专门设置普惠体 */
+    p, li, td, th, blockquote {
+        font-family: 'LXGW WenKai Screen', sans-serif;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'LXGW WenKai Screen', sans-serif;
+        font-weight: 700;
+    }
+    
+    /* 确保代码部分使用等宽字体 */
+    code, pre {
+        font-family: 'Ubuntu Mono', monospace !important;
+    }
+}
+
+/* 清除代码高亮中的奇怪背景色 */
+.CodeRay .keyword, .CodeRay .function, .CodeRay .constant,
+.CodeRay .string, .CodeRay .integer, .CodeRay .comment,
+.hljs span, code span, pre span, .highlight span {
+    background: transparent !important; /* 移除所有代码元素的背景色 */
+}
+
+/* 内联代码样式 */
+:not(pre) > code {
+    font-family: 'Ubuntu Mono', monospace !important;
+    color: #d14 !important; /* 使用深红色作为代码颜色 */
+    padding: 0 2px !important;
+    border: none !important; /* 移除边框 */
+    background: transparent !important; /* 移除背景 */
+    font-size: 12px !important;
+    display: inline !important;
+    line-height: 1.2 !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+    border-radius: 0 !important;
+}
+
+/* 确保内联代码中的表格不影响显示 */
+:not(pre) > code table,
+:not(pre) > code td {
+    display: inline !important;
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+pre code {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    font-size: inherit !important;
+}
+
+.footer {
+	font-size: 12px;
+	margin: 30px 0 10px 0;
+
+	p {
+		text-align: center;
+
+		a {
+			color: #24244a;
+		}
+	}
+}
+
+/* 大屏幕布局 - 默认样式 */
+.tag_list {
+    width: 28%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.post_list {
+    width: 70%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+/* 所有屏幕尺寸的响应式调整 */
+@media only screen and (max-width: 769px) {
+    .wrapper {
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .content {
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    /* 减小宽度，确保有空间容纳边框和内边距 */
+    .tag_list {
+        width: 98%;  /* 从100%减小到98% */
+        display: block;
+        margin: 0 auto 10px auto; /* 居中并添加底部边距 */
+        float: none;
+    }
+    
+    .post_list {
+        width: 98%; /* 从100%减小到98% */
+        display: block;
+        margin: 0 auto; /* 居中 */
+        float: none;
+    }
+    
+    /* 同样减小内容区域宽度 */
+    .post_content {
+        width: 97.5%;
+        margin: 0 auto;
+        
+        > * {
+            padding-left: 15px;
+            padding-right: 25px;
+        }
+        
+        pre {
+            width: calc(100% - 35px);
+        }
+    }
+
+    .default_title {
+        h1 {
+            max-width: calc(100% - 20px);
+            font-size: 13px; /* 稍微减小字体大小 */
+        }
+    }
+
+    .post_title {
+        h1 {
+            max-width: calc(100% - 120px); /* 小屏幕上减小最大宽度 */
+            font-size: 13px; /* 稍微减小字体大小 */
+        }
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .default_title {
+        h1 {
+            max-width: calc(100% - 18px);
+            font-size: 12px; /* 进一步减小字体大小 */
+        }
+    }
+
+    .post_title {
+        h1 {
+            max-width: calc(100% - 120px); /* 更小屏幕上进一步减小最大宽度 */
+            font-size: 12px; /* 进一步减小字体大小 */
+        }
+    }
+}
+
+@media only screen and (max-width: 380px) {
+    .post_title {
+        h1 {
+            max-width: calc(100% - 120px); /* 更小屏幕上需要留出更多空间给按钮 */
+            font-size: 11px; /* 进一步减小字体 */
+        }
+        
+        .btn {
+            /* 可以略微减小按钮尺寸以适应非常小的屏幕 */
+            width: 11px;
+            height: 9px;
+            
+            span {
+                font-size: 9px;
+                left: 1px;
+                top: -2px;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 320px) {
+    .post_total {
+        flex-direction: column; /* 在很小的屏幕上改为垂直排列 */
+        
+        .left, .right {
+            width: 100%;
+            margin: 2px 0;
+        }
+    }
+}
+
+::-webkit-scrollbar {
+      width: 16px;
+} /* this targets the default scrollbar (compulsory) */
+::-webkit-scrollbar-track {
+	background-image: url("../img/track.png");
+	background-repeat: repeat-x repeat-y;
+} /* the new scrollbar will have a flat appearance with the set background color */
+ 
+::-webkit-scrollbar-thumb {
+	background-color: #cccccc;
+	border-width: 2px;
+	border-style: groove ridge ridge groove;
+	border-color: #fff8ff #000000 #000000 #fff8ff;
+} /* this will style the thumb, ignoring the track */
+ 
+::-webkit-scrollbar-button {
+	background-color: #cccccc;
+	border-width: 2px;
+	border-style: groove ridge ridge groove;
+	border-color: #fff8ff #000000 #000000 #fff8ff;
+	background-position: center center;
+	background-repeat: no-repeat;
+
+	&:vertical:decrement {
+		background-image: url("../img/up.png");
+	}
+
+	&:vertical:increment {
+		background-image: url("../img/down.png");
+	}
+
+	&:horizontal:decrement {
+		background-image: url("../img/left.png");
+	}
+
+	&:horizontal:increment {
+		background-image: url("../img/right.png");
+	}
+
+	&:active {
+		background-position: 1px 2px;
+	}
+} /* optionally, you can style the top and the bottom buttons (left and right for horizontal bars) */
+ 
+::-webkit-scrollbar-corner {
+	background-color: #cacaca;
+} /* if both the vertical and the horizontal bars appear, then perhaps the right bottom corner also needs to be styled */

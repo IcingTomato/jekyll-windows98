@@ -1,0 +1,33 @@
+---
+layout: default
+title:  "主题介绍"
+tags: intro zh-cn
+---
+
+## 测试环境搭建
+
+```bash
+docker pull mcr.microsoft.com/devcontainers/jekyll
+
+docker run -d --name shit -v /c/Users/IcingTomato/Documents/icing.fun:/tmp -p 127.0.0.1:4000:4000 -it mcr.microsoft.com/devcontainers/jekyll:latest /bin/bash
+
+docker exec -it shit /bin/bash
+```
+
+容器内需要运行
+
+```bash
+cd /tmp
+
+jekyll serve --host 0.0.0.0
+```
+
+## generate-tag-pages 脚本
+
+用于根据 `_posts` 中 `tags` 标签生成对应的页面，可以本地运行完之后上传到 GitHub，也可以通过 CI/CD 自动运行
+
+比如 Cloudflare 中就可以设置构建命令：
+
+```bash
+sh generate-tag-pages.sh && jekyll build
+```

@@ -1,0 +1,33 @@
+---
+layout: default
+---
+
+<style>
+    .post_list {
+      display: none !important;
+    }
+    
+    /* 调整内容区域宽度，使其占据整个空间 */
+    .tag_list {
+      width: 99.7%; 
+      box-sizing: border-box;
+      margin: 0; /* 移除任何外边距 */
+      padding-left: 10px; /* 添加适当的左内边距 */
+      padding-right: 10px; /* 添加适当的右内边距 */
+    }
+    
+    /* 小屏幕适配 */
+    @media only screen and (max-width: 769px) {
+      .tag_list {
+        width: 99.5%;
+        margin: 0 auto;
+      }
+      
+      /* 确保滚动条不会突出 */
+      .wrapper {
+        overflow-x: hidden;
+      }
+    }
+</style>
+
+{{ content }}
