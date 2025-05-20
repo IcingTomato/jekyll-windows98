@@ -1,4 +1,5 @@
 _site
 .jekyll-cache
 cls.ps1
+Gemfile.lock
 # tags
