@@ -74,7 +74,8 @@ class Minesweeper {
         this.gameBoard = document.createElement('div');
         this.gameBoard.style.display = 'grid';
         this.gameBoard.style.gridTemplateColumns = `repeat(${this.cols}, 16px)`;
-        this.gameBoard.style.gap = '1px';
+        this.gameBoard.style.gridTemplateRows = `repeat(${this.rows}, 16px)`; // 添加行高定义
+        this.gameBoard.style.gap = '0'; // 移除间距
         this.gameBoard.style.backgroundColor = '#c0c0c0';
         this.gameBoard.style.border = '1px solid #c0c0c0';
         this.gameBoard.style.boxShadow = 'inset 1px 1px #0a0a0a, inset -1px -1px #fff, inset 2px 2px grey, inset -2px -2px #dfdfdf';
@@ -86,6 +87,8 @@ class Minesweeper {
                 const cell = document.createElement('div');
                 cell.style.width = '16px';
                 cell.style.height = '16px';
+                cell.style.boxSizing = 'border-box'; // 添加盒模型设置
+                cell.style.margin = '0'; // 移除外边距
                 cell.style.border = '1px solid #c0c0c0';
                 cell.style.boxShadow = 'inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf';
                 cell.style.display = 'flex';
