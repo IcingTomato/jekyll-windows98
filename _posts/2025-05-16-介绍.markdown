@@ -19,6 +19,8 @@ docker exec -it shit /bin/bash
 ```bash
 cd /tmp
 
+bundle install
+
 jekyll serve --host 0.0.0.0
 ```
 
