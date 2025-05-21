@@ -18,7 +18,7 @@ class Minesweeper {
         this.container.style.backgroundColor = '#c0c0c0';
         this.container.style.padding = '3px';
         this.container.style.border = '3px solid #c0c0c0';
-        this.container.style.boxShadow = 'inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf';
+        this.container.style.boxShadow = 'inset -1px -1px #808080, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf';
 
         // 创建顶部信息栏
         const infoBar = document.createElement('div');
@@ -28,30 +28,41 @@ class Minesweeper {
         infoBar.style.marginBottom = '3px';
         infoBar.style.backgroundColor = '#c0c0c0';
         infoBar.style.border = '2px solid #c0c0c0';
-        infoBar.style.boxShadow = 'inset 1px 1px #0a0a0a, inset -1px -1px #fff, inset 2px 2px grey, inset -2px -2px #dfdfdf';
+        infoBar.style.boxShadow = 'inset 1px 1px #808080, inset -1px -1px #fff, inset 2px 2px grey, inset -2px -2px #dfdfdf';
 
         // 剩余地雷数显示
         this.mineCounter = document.createElement('div');
         this.mineCounter.style.width = '40px';
-        this.mineCounter.style.height = '23px';
+        this.mineCounter.style.height = '26px';
         this.mineCounter.style.backgroundColor = '#000';
-        this.mineCounter.style.color = '#f00';
-        this.mineCounter.style.fontFamily = 'Digital, monospace';
-        this.mineCounter.style.fontSize = '20px';
-        this.mineCounter.style.textAlign = 'center';
-        this.mineCounter.style.lineHeight = '23px';
         this.mineCounter.style.margin = '2px 4px';
-        this.mineCounter.style.boxShadow = 'inset 1px 1px #0a0a0a, inset -1px -1px #fff';
-        this.mineCounter.textContent = this.mines.toString().padStart(3, '0');
+        this.mineCounter.style.boxShadow = 'inset 1px 1px #808080, inset -1px -1px #fff';
+        this.mineCounter.style.display = 'flex';
+        this.mineCounter.style.justifyContent = 'center';
+        this.mineCounter.style.alignItems = 'center';
+        this.mineCounter.style.gap = '0px';
+
+        // 创建三个数字图片容器
+        this.mineDigits = [];
+        for (let i = 0; i < 3; i++) {
+            const digitImg = document.createElement('img');
+            digitImg.style.width = '12px';
+            digitImg.style.height = '22px';
+            digitImg.style.border = 'none';
+            digitImg.style.boxShadow = 'none';
+            this.mineCounter.appendChild(digitImg);
+            this.mineDigits.push(digitImg);
+        }
+        this.updateMineCounter(this.mines);
 
         // 笑脸按钮
         this.smileButton = document.createElement('button');
-        this.smileButton.style.width = '26px';
-        this.smileButton.style.height = '26px';
+        this.smileButton.style.width = '30px';
+        this.smileButton.style.height = '30px';
         this.smileButton.style.padding = '0';
         this.smileButton.style.border = '2px solid #c0c0c0';
         this.smileButton.style.backgroundColor = '#c0c0c0';
-        this.smileButton.style.boxShadow = 'inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf';
+        this.smileButton.style.boxShadow = 'inset -1px -1px #808080, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf';
         this.smileButton.style.cursor = 'pointer';
         this.smileButton.style.display = 'flex';
         this.smileButton.style.alignItems = 'center';
@@ -60,8 +71,8 @@ class Minesweeper {
 
         // 笑脸图片
         this.smileImg = document.createElement('img');
-        this.smileImg.style.width = '16px';
-        this.smileImg.style.height = '16px';
+        this.smileImg.style.width = '20px';
+        this.smileImg.style.height = '20px';
         this.smileImg.style.border = 'none';
         this.smileImg.style.boxShadow = 'none';
         this.smileImg.src = `${this.baseUrl}/assets/img/minesweeper/smile.png`;
@@ -70,16 +81,27 @@ class Minesweeper {
         // 计时器
         this.timer = document.createElement('div');
         this.timer.style.width = '40px';
-        this.timer.style.height = '23px';
+        this.timer.style.height = '26px';
         this.timer.style.backgroundColor = '#000';
-        this.timer.style.color = '#f00';
-        this.timer.style.fontFamily = 'Digital, monospace';
-        this.timer.style.fontSize = '20px';
-        this.timer.style.textAlign = 'center';
-        this.timer.style.lineHeight = '23px';
         this.timer.style.margin = '2px 4px';
-        this.timer.style.boxShadow = 'inset 1px 1px #0a0a0a, inset -1px -1px #fff';
-        this.timer.textContent = '000';
+        this.timer.style.boxShadow = 'inset 1px 1px #808080, inset -1px -1px #fff';
+        this.timer.style.display = 'flex';
+        this.timer.style.justifyContent = 'center';
+        this.timer.style.alignItems = 'center';
+        this.timer.style.gap = '0px';
+
+        // 创建三个数字图片容器
+        this.timerDigits = [];
+        for (let i = 0; i < 3; i++) {
+            const digitImg = document.createElement('img');
+            digitImg.style.width = '12px';
+            digitImg.style.height = '22px';
+            digitImg.style.border = 'none';
+            digitImg.style.boxShadow = 'none';
+            this.timer.appendChild(digitImg);
+            this.timerDigits.push(digitImg);
+        }
+        this.updateTimer(0);
 
         infoBar.appendChild(this.mineCounter);
         infoBar.appendChild(this.smileButton);
@@ -94,7 +116,7 @@ class Minesweeper {
         this.gameBoard.style.gap = '0'; // 移除间距
         this.gameBoard.style.backgroundColor = '#c0c0c0';
         this.gameBoard.style.border = '1px solid #c0c0c0';
-        this.gameBoard.style.boxShadow = 'inset 1px 1px #0a0a0a, inset -1px -1px #fff, inset 2px 2px grey, inset -2px -2px #dfdfdf';
+        this.gameBoard.style.boxShadow = 'inset 1px 1px #808080, inset -1px -1px #fff, inset 2px 2px grey, inset -2px -2px #dfdfdf';
 
         // 初始化游戏板
         for (let i = 0; i < this.rows; i++) {
@@ -106,7 +128,7 @@ class Minesweeper {
                 cell.style.boxSizing = 'border-box'; // 添加盒模型设置
                 cell.style.margin = '0'; // 移除外边距
                 cell.style.border = '1px solid #c0c0c0';
-                cell.style.boxShadow = 'inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf';
+                cell.style.boxShadow = 'inset -1px -1px #808080, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf';
                 cell.style.display = 'flex';
                 cell.style.alignItems = 'center';
                 cell.style.justifyContent = 'center';
@@ -150,12 +172,26 @@ class Minesweeper {
         });
     }
 
+    updateMineCounter(value) {
+        const digits = value.toString().padStart(3, '0');
+        for (let i = 0; i < 3; i++) {
+            this.mineDigits[i].src = `${this.baseUrl}/assets/img/minesweeper/digit${digits[i]}.png`;
+        }
+    }
+
+    updateTimer(seconds) {
+        const digits = seconds.toString().padStart(3, '0');
+        for (let i = 0; i < 3; i++) {
+            this.timerDigits[i].src = `${this.baseUrl}/assets/img/minesweeper/digit${digits[i]}.png`;
+        }
+    }
+
     startTimer() {
         let seconds = 0;
         this.timerInterval = setInterval(() => {
             if (!this.gameOver) {
                 seconds++;
-                this.timer.textContent = seconds.toString().padStart(3, '0');
+                this.updateTimer(seconds);
             }
         }, 1000);
     }
@@ -239,9 +275,6 @@ class Minesweeper {
 
         const cell = this.board[row][col];
 
-        // 如果当前格子没有旗子，且剩余地雷数为0，则不允许插旗
-        if (!cell.isFlagged && this.mines <= 0) return;
-
         cell.isFlagged = !cell.isFlagged;
 
         if (cell.isFlagged) {
@@ -259,7 +292,7 @@ class Minesweeper {
             this.mines++;
         }
 
-        this.mineCounter.textContent = this.mines.toString().padStart(3, '0');
+        this.updateMineCounter(this.mines);
     }
 
     revealCell(row, col) {
