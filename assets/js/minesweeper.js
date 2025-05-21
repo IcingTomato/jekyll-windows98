@@ -114,6 +114,7 @@ class Minesweeper {
         this.gameBoard.style.gridTemplateColumns = `repeat(${this.cols}, 16px)`;
         this.gameBoard.style.gridTemplateRows = `repeat(${this.rows}, 16px)`; // 添加行高定义
         this.gameBoard.style.gap = '0'; // 移除间距
+        this.gameBoard.style.padding = '2px';
         this.gameBoard.style.backgroundColor = '#c0c0c0';
         this.gameBoard.style.border = '1px solid #c0c0c0';
         this.gameBoard.style.boxShadow = 'inset 1px 1px #808080, inset -1px -1px #fff, inset 2px 2px grey, inset -2px -2px #dfdfdf';
@@ -123,8 +124,8 @@ class Minesweeper {
             this.board[i] = [];
             for (let j = 0; j < this.cols; j++) {
                 const cell = document.createElement('div');
-                cell.style.width = '16px';
-                cell.style.height = '16px';
+                cell.style.width = '17px';
+                cell.style.height = '17px';
                 cell.style.boxSizing = 'border-box'; // 添加盒模型设置
                 cell.style.margin = '0'; // 移除外边距
                 cell.style.border = '1px solid #c0c0c0';
@@ -132,9 +133,6 @@ class Minesweeper {
                 cell.style.display = 'flex';
                 cell.style.alignItems = 'center';
                 cell.style.justifyContent = 'center';
-                cell.style.fontFamily = 'Arial, sans-serif';
-                cell.style.fontSize = '12px';
-                cell.style.fontWeight = 'bold';
                 cell.style.cursor = 'pointer';
 
 
@@ -280,8 +278,8 @@ class Minesweeper {
         if (cell.isFlagged) {
             const flagImg = document.createElement('img');
             flagImg.src = `${this.baseUrl}/assets/img/minesweeper/flag.png`;
-            flagImg.style.width = '14px';
-            flagImg.style.height = '14px';
+            flagImg.style.width = '16px';
+            flagImg.style.height = '16px';
             flagImg.style.border = 'none';
             flagImg.style.boxShadow = 'none';
             cell.element.innerHTML = '';
@@ -337,8 +335,8 @@ class Minesweeper {
                 if (cell.isMine) {
                     const mineImg = document.createElement('img');
                     mineImg.src = `${this.baseUrl}/assets/img/minesweeper/mine.png`;
-                    mineImg.style.width = '12px';
-                    mineImg.style.height = '12px';
+                    mineImg.style.width = '13px';
+                    mineImg.style.height = '13px';
                     mineImg.style.border = 'none';
                     mineImg.style.boxShadow = 'none';
                     cell.element.innerHTML = '';
