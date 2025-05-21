@@ -39,6 +39,8 @@ class Minesweeper {
         this.mineCounter.style.fontSize = '20px';
         this.mineCounter.style.textAlign = 'center';
         this.mineCounter.style.lineHeight = '23px';
+        this.mineCounter.style.margin = '2px 4px';
+        this.mineCounter.style.boxShadow = 'inset 1px 1px #0a0a0a, inset -1px -1px #fff';
         this.mineCounter.textContent = this.mines.toString().padStart(3, '0');
 
         // 笑脸按钮
@@ -63,6 +65,8 @@ class Minesweeper {
         this.timer.style.fontSize = '20px';
         this.timer.style.textAlign = 'center';
         this.timer.style.lineHeight = '23px';
+        this.timer.style.margin = '2px 4px';
+        this.timer.style.boxShadow = 'inset 1px 1px #0a0a0a, inset -1px -1px #fff';
         this.timer.textContent = '000';
 
         infoBar.appendChild(this.mineCounter);
@@ -208,6 +212,10 @@ class Minesweeper {
         if (this.gameOver || this.board[row][col].isRevealed) return;
 
         const cell = this.board[row][col];
+
+        // 如果当前格子没有旗子，且剩余地雷数为0，则不允许插旗
+        if (!cell.isFlagged && this.mines <= 0) return;
+
         cell.isFlagged = !cell.isFlagged;
 
         if (cell.isFlagged) {
