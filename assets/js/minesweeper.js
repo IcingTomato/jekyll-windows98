@@ -8,6 +8,7 @@ class Minesweeper {
         this.gameOver = false;
         this.firstClick = true;
         this.remainingCells = rows * cols - mines;
+        this.baseUrl = baseUrl || ''; // 从全局变量获取基础URL
         this.init();
     }
 
@@ -52,8 +53,19 @@ class Minesweeper {
         this.smileButton.style.backgroundColor = '#c0c0c0';
         this.smileButton.style.boxShadow = 'inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf';
         this.smileButton.style.cursor = 'pointer';
-        this.smileButton.innerHTML = '😊';
+        this.smileButton.style.display = 'flex';
+        this.smileButton.style.alignItems = 'center';
+        this.smileButton.style.justifyContent = 'center';
         this.smileButton.onclick = () => this.reset();
+
+        // 笑脸图片
+        this.smileImg = document.createElement('img');
+        this.smileImg.style.width = '16px';
+        this.smileImg.style.height = '16px';
+        this.smileImg.style.border = 'none';
+        this.smileImg.style.boxShadow = 'none';
+        this.smileImg.src = `${this.baseUrl}/assets/img/minesweeper/smile.png`;
+        this.smileButton.appendChild(this.smileImg);
 
         // 计时器
         this.timer = document.createElement('div');
@@ -123,6 +135,19 @@ class Minesweeper {
 
         this.container.appendChild(this.gameBoard);
         this.startTimer();
+
+        // 在创建笑脸按钮后添加这些事件监听器
+        this.smileButton.addEventListener('mousedown', () => {
+            this.smileImg.src = `${this.baseUrl}/assets/img/minesweeper/ohh.png`;
+        });
+
+        this.smileButton.addEventListener('mouseup', () => {
+            this.smileImg.src = `${this.baseUrl}/assets/img/minesweeper/smile.png`;
+        });
+
+        this.smileButton.addEventListener('mouseleave', () => {
+            this.smileImg.src = `${this.baseUrl}/assets/img/minesweeper/smile.png`;
+        });
     }
 
     startTimer() {
@@ -194,7 +219,7 @@ class Minesweeper {
         if (this.board[row][col].isMine) {
             this.gameOver = true;
             this.revealAll();
-            this.smileButton.innerHTML = '😵';
+            this.smileImg.src = `${this.baseUrl}/assets/img/minesweeper/dead.png`;
             clearInterval(this.timerInterval);
             return;
         }
@@ -203,7 +228,7 @@ class Minesweeper {
 
         if (this.remainingCells === 0) {
             this.gameOver = true;
-            this.smileButton.innerHTML = '😎';
+            this.smileImg.src = `${this.baseUrl}/assets/img/minesweeper/win.png`;
             clearInterval(this.timerInterval);
         }
     }
@@ -219,7 +244,12 @@ class Minesweeper {
         cell.isFlagged = !cell.isFlagged;
 
         if (cell.isFlagged) {
-            cell.element.innerHTML = '🚩';
+            const flagImg = document.createElement('img');
+            flagImg.src = `${this.baseUrl}/assets/img/minesweeper/flag.png`;
+            flagImg.style.width = '14px';
+            flagImg.style.height = '14px';
+            cell.element.innerHTML = '';
+            cell.element.appendChild(flagImg);
             this.mines--;
         } else {
             cell.element.innerHTML = '';
