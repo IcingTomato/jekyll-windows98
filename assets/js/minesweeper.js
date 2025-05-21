@@ -219,6 +219,7 @@ class Minesweeper {
         if (this.board[row][col].isMine) {
             this.gameOver = true;
             this.revealAll();
+            this.board[row][col].element.style.backgroundColor = '#ff0000';
             this.smileImg.src = `${this.baseUrl}/assets/img/minesweeper/dead.png`;
             clearInterval(this.timerInterval);
             return;
@@ -248,6 +249,8 @@ class Minesweeper {
             flagImg.src = `${this.baseUrl}/assets/img/minesweeper/flag.png`;
             flagImg.style.width = '14px';
             flagImg.style.height = '14px';
+            flagImg.style.border = 'none';
+            flagImg.style.boxShadow = 'none';
             cell.element.innerHTML = '';
             cell.element.appendChild(flagImg);
             this.mines--;
@@ -294,10 +297,26 @@ class Minesweeper {
             for (let j = 0; j < this.cols; j++) {
                 const cell = this.board[i][j];
                 if (cell.isMine) {
-                    cell.element.innerHTML = '💣';
-                    cell.element.style.backgroundColor = '#ff0000';
+                    const mineImg = document.createElement('img');
+                    mineImg.src = `${this.baseUrl}/assets/img/minesweeper/mine.png`;
+                    mineImg.style.width = '12px';
+                    mineImg.style.height = '12px';
+                    mineImg.style.border = 'none';
+                    mineImg.style.boxShadow = 'none';
+                    cell.element.innerHTML = '';
+                    cell.element.appendChild(mineImg);
+                    cell.element.style.backgroundColor = '#c0c0c0';
+                    cell.element.style.border = '1px solid #808080';
+                    cell.element.style.boxShadow = 'none';
                 } else if (cell.isFlagged && !cell.isMine) {
-                    cell.element.innerHTML = '❌';
+                    const misflaggedImg = document.createElement('img');
+                    misflaggedImg.src = `${this.baseUrl}/assets/img/minesweeper/misflagged.png`;
+                    misflaggedImg.style.width = '14px';
+                    misflaggedImg.style.height = '14px';
+                    misflaggedImg.style.border = 'none';
+                    misflaggedImg.style.boxShadow = 'none';
+                    cell.element.innerHTML = '';
+                    cell.element.appendChild(misflaggedImg);
                 }
             }
         }
