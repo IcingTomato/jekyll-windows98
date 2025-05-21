@@ -274,9 +274,14 @@ class Minesweeper {
         cell.element.style.boxShadow = 'none';
 
         if (cell.neighborMines > 0) {
-            const colors = ['blue', 'green', 'red', 'purple', 'maroon', 'turquoise', 'black', 'gray'];
-            cell.element.style.color = colors[cell.neighborMines - 1];
-            cell.element.textContent = cell.neighborMines;
+            const numberImg = document.createElement('img');
+            numberImg.src = `${this.baseUrl}/assets/img/minesweeper/open${cell.neighborMines}.png`;
+            numberImg.style.width = '16px';
+            numberImg.style.height = '16px';
+            numberImg.style.border = 'none';
+            numberImg.style.boxShadow = 'none';
+            cell.element.innerHTML = '';
+            cell.element.appendChild(numberImg);
         } else {
             // 如果是空格，递归显示周围的格子
             for (let i = -1; i <= 1; i++) {
