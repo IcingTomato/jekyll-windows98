@@ -8,6 +8,7 @@ class Minesweeper {
         this.gameOver = false;
         this.firstClick = true;
         this.remainingCells = rows * cols - mines;
+        this.baseUrl = baseUrl || ''; // 从全局变量获取基础URL
         this.init();
     }
 
@@ -17,7 +18,7 @@ class Minesweeper {
         this.container.style.backgroundColor = '#c0c0c0';
         this.container.style.padding = '3px';
         this.container.style.border = '3px solid #c0c0c0';
-        this.container.style.boxShadow = 'inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf';
+        this.container.style.boxShadow = 'inset -1px -1px #808080, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf';
 
         // 创建顶部信息栏
         const infoBar = document.createElement('div');
@@ -27,43 +28,80 @@ class Minesweeper {
         infoBar.style.marginBottom = '3px';
         infoBar.style.backgroundColor = '#c0c0c0';
         infoBar.style.border = '2px solid #c0c0c0';
-        infoBar.style.boxShadow = 'inset 1px 1px #0a0a0a, inset -1px -1px #fff, inset 2px 2px grey, inset -2px -2px #dfdfdf';
+        infoBar.style.boxShadow = 'inset 1px 1px #808080, inset -1px -1px #fff, inset 2px 2px grey, inset -2px -2px #dfdfdf';
 
         // 剩余地雷数显示
         this.mineCounter = document.createElement('div');
         this.mineCounter.style.width = '40px';
-        this.mineCounter.style.height = '23px';
+        this.mineCounter.style.height = '26px';
         this.mineCounter.style.backgroundColor = '#000';
-        this.mineCounter.style.color = '#f00';
-        this.mineCounter.style.fontFamily = 'Digital, monospace';
-        this.mineCounter.style.fontSize = '20px';
-        this.mineCounter.style.textAlign = 'center';
-        this.mineCounter.style.lineHeight = '23px';
-        this.mineCounter.textContent = this.mines.toString().padStart(3, '0');
+        this.mineCounter.style.margin = '2px 4px';
+        this.mineCounter.style.boxShadow = 'inset 1px 1px #808080, inset -1px -1px #fff';
+        this.mineCounter.style.display = 'flex';
+        this.mineCounter.style.justifyContent = 'center';
+        this.mineCounter.style.alignItems = 'center';
+        this.mineCounter.style.gap = '0px';
+
+        // 创建三个数字图片容器
+        this.mineDigits = [];
+        for (let i = 0; i < 3; i++) {
+            const digitImg = document.createElement('img');
+            digitImg.style.width = '12px';
+            digitImg.style.height = '22px';
+            digitImg.style.border = 'none';
+            digitImg.style.boxShadow = 'none';
+            this.mineCounter.appendChild(digitImg);
+            this.mineDigits.push(digitImg);
+        }
+        this.updateMineCounter(this.mines);
 
         // 笑脸按钮
         this.smileButton = document.createElement('button');
-        this.smileButton.style.width = '26px';
-        this.smileButton.style.height = '26px';
+        this.smileButton.style.width = '30px';
+        this.smileButton.style.height = '30px';
         this.smileButton.style.padding = '0';
         this.smileButton.style.border = '2px solid #c0c0c0';
         this.smileButton.style.backgroundColor = '#c0c0c0';
-        this.smileButton.style.boxShadow = 'inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf';
+        this.smileButton.style.boxShadow = 'inset -1px -1px #808080, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf';
         this.smileButton.style.cursor = 'pointer';
-        this.smileButton.innerHTML = '😊';
+        this.smileButton.style.display = 'flex';
+        this.smileButton.style.alignItems = 'center';
+        this.smileButton.style.justifyContent = 'center';
         this.smileButton.onclick = () => this.reset();
+
+        // 笑脸图片
+        this.smileImg = document.createElement('img');
+        this.smileImg.style.width = '20px';
+        this.smileImg.style.height = '20px';
+        this.smileImg.style.border = 'none';
+        this.smileImg.style.boxShadow = 'none';
+        this.smileImg.src = `${this.baseUrl}/assets/img/minesweeper/smile.png`;
+        this.smileButton.appendChild(this.smileImg);
 
         // 计时器
         this.timer = document.createElement('div');
         this.timer.style.width = '40px';
-        this.timer.style.height = '23px';
+        this.timer.style.height = '26px';
         this.timer.style.backgroundColor = '#000';
-        this.timer.style.color = '#f00';
-        this.timer.style.fontFamily = 'Digital, monospace';
-        this.timer.style.fontSize = '20px';
-        this.timer.style.textAlign = 'center';
-        this.timer.style.lineHeight = '23px';
-        this.timer.textContent = '000';
+        this.timer.style.margin = '2px 4px';
+        this.timer.style.boxShadow = 'inset 1px 1px #808080, inset -1px -1px #fff';
+        this.timer.style.display = 'flex';
+        this.timer.style.justifyContent = 'center';
+        this.timer.style.alignItems = 'center';
+        this.timer.style.gap = '0px';
+
+        // 创建三个数字图片容器
+        this.timerDigits = [];
+        for (let i = 0; i < 3; i++) {
+            const digitImg = document.createElement('img');
+            digitImg.style.width = '12px';
+            digitImg.style.height = '22px';
+            digitImg.style.border = 'none';
+            digitImg.style.boxShadow = 'none';
+            this.timer.appendChild(digitImg);
+            this.timerDigits.push(digitImg);
+        }
+        this.updateTimer(0);
 
         infoBar.appendChild(this.mineCounter);
         infoBar.appendChild(this.smileButton);
@@ -76,27 +114,25 @@ class Minesweeper {
         this.gameBoard.style.gridTemplateColumns = `repeat(${this.cols}, 16px)`;
         this.gameBoard.style.gridTemplateRows = `repeat(${this.rows}, 16px)`; // 添加行高定义
         this.gameBoard.style.gap = '0'; // 移除间距
+        this.gameBoard.style.padding = '2px';
         this.gameBoard.style.backgroundColor = '#c0c0c0';
         this.gameBoard.style.border = '1px solid #c0c0c0';
-        this.gameBoard.style.boxShadow = 'inset 1px 1px #0a0a0a, inset -1px -1px #fff, inset 2px 2px grey, inset -2px -2px #dfdfdf';
+        this.gameBoard.style.boxShadow = 'inset 1px 1px #808080, inset -1px -1px #fff, inset 2px 2px grey, inset -2px -2px #dfdfdf';
 
         // 初始化游戏板
         for (let i = 0; i < this.rows; i++) {
             this.board[i] = [];
             for (let j = 0; j < this.cols; j++) {
                 const cell = document.createElement('div');
-                cell.style.width = '16px';
-                cell.style.height = '16px';
+                cell.style.width = '17px';
+                cell.style.height = '17px';
                 cell.style.boxSizing = 'border-box'; // 添加盒模型设置
                 cell.style.margin = '0'; // 移除外边距
                 cell.style.border = '1px solid #c0c0c0';
-                cell.style.boxShadow = 'inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf';
+                cell.style.boxShadow = 'inset -1px -1px #808080, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf';
                 cell.style.display = 'flex';
                 cell.style.alignItems = 'center';
                 cell.style.justifyContent = 'center';
-                cell.style.fontFamily = 'Arial, sans-serif';
-                cell.style.fontSize = '12px';
-                cell.style.fontWeight = 'bold';
                 cell.style.cursor = 'pointer';
 
 
@@ -119,6 +155,33 @@ class Minesweeper {
 
         this.container.appendChild(this.gameBoard);
         this.startTimer();
+
+        // 在创建笑脸按钮后添加这些事件监听器
+        this.smileButton.addEventListener('mousedown', () => {
+            this.smileImg.src = `${this.baseUrl}/assets/img/minesweeper/ohh.png`;
+        });
+
+        this.smileButton.addEventListener('mouseup', () => {
+            this.smileImg.src = `${this.baseUrl}/assets/img/minesweeper/smile.png`;
+        });
+
+        this.smileButton.addEventListener('mouseleave', () => {
+            this.smileImg.src = `${this.baseUrl}/assets/img/minesweeper/smile.png`;
+        });
+    }
+
+    updateMineCounter(value) {
+        const digits = value.toString().padStart(3, '0');
+        for (let i = 0; i < 3; i++) {
+            this.mineDigits[i].src = `${this.baseUrl}/assets/img/minesweeper/digit${digits[i]}.png`;
+        }
+    }
+
+    updateTimer(seconds) {
+        const digits = seconds.toString().padStart(3, '0');
+        for (let i = 0; i < 3; i++) {
+            this.timerDigits[i].src = `${this.baseUrl}/assets/img/minesweeper/digit${digits[i]}.png`;
+        }
     }
 
     startTimer() {
@@ -126,7 +189,7 @@ class Minesweeper {
         this.timerInterval = setInterval(() => {
             if (!this.gameOver) {
                 seconds++;
-                this.timer.textContent = seconds.toString().padStart(3, '0');
+                this.updateTimer(seconds);
             }
         }, 1000);
     }
@@ -190,7 +253,8 @@ class Minesweeper {
         if (this.board[row][col].isMine) {
             this.gameOver = true;
             this.revealAll();
-            this.smileButton.innerHTML = '😵';
+            this.board[row][col].element.style.backgroundColor = '#ff0000';
+            this.smileImg.src = `${this.baseUrl}/assets/img/minesweeper/dead.png`;
             clearInterval(this.timerInterval);
             return;
         }
@@ -199,7 +263,7 @@ class Minesweeper {
 
         if (this.remainingCells === 0) {
             this.gameOver = true;
-            this.smileButton.innerHTML = '😎';
+            this.smileImg.src = `${this.baseUrl}/assets/img/minesweeper/win.png`;
             clearInterval(this.timerInterval);
         }
     }
@@ -208,17 +272,25 @@ class Minesweeper {
         if (this.gameOver || this.board[row][col].isRevealed) return;
 
         const cell = this.board[row][col];
+
         cell.isFlagged = !cell.isFlagged;
 
         if (cell.isFlagged) {
-            cell.element.innerHTML = '🚩';
+            const flagImg = document.createElement('img');
+            flagImg.src = `${this.baseUrl}/assets/img/minesweeper/flag.png`;
+            flagImg.style.width = '16px';
+            flagImg.style.height = '16px';
+            flagImg.style.border = 'none';
+            flagImg.style.boxShadow = 'none';
+            cell.element.innerHTML = '';
+            cell.element.appendChild(flagImg);
             this.mines--;
         } else {
             cell.element.innerHTML = '';
             this.mines++;
         }
 
-        this.mineCounter.textContent = this.mines.toString().padStart(3, '0');
+        this.updateMineCounter(this.mines);
     }
 
     revealCell(row, col) {
@@ -233,9 +305,14 @@ class Minesweeper {
         cell.element.style.boxShadow = 'none';
 
         if (cell.neighborMines > 0) {
-            const colors = ['blue', 'green', 'red', 'purple', 'maroon', 'turquoise', 'black', 'gray'];
-            cell.element.style.color = colors[cell.neighborMines - 1];
-            cell.element.textContent = cell.neighborMines;
+            const numberImg = document.createElement('img');
+            numberImg.src = `${this.baseUrl}/assets/img/minesweeper/open${cell.neighborMines}.png`;
+            numberImg.style.width = '16px';
+            numberImg.style.height = '16px';
+            numberImg.style.border = 'none';
+            numberImg.style.boxShadow = 'none';
+            cell.element.innerHTML = '';
+            cell.element.appendChild(numberImg);
         } else {
             // 如果是空格，递归显示周围的格子
             for (let i = -1; i <= 1; i++) {
@@ -256,10 +333,26 @@ class Minesweeper {
             for (let j = 0; j < this.cols; j++) {
                 const cell = this.board[i][j];
                 if (cell.isMine) {
-                    cell.element.innerHTML = '💣';
-                    cell.element.style.backgroundColor = '#ff0000';
+                    const mineImg = document.createElement('img');
+                    mineImg.src = `${this.baseUrl}/assets/img/minesweeper/mine.png`;
+                    mineImg.style.width = '13px';
+                    mineImg.style.height = '13px';
+                    mineImg.style.border = 'none';
+                    mineImg.style.boxShadow = 'none';
+                    cell.element.innerHTML = '';
+                    cell.element.appendChild(mineImg);
+                    cell.element.style.backgroundColor = '#c0c0c0';
+                    cell.element.style.border = '1px solid #808080';
+                    cell.element.style.boxShadow = 'none';
                 } else if (cell.isFlagged && !cell.isMine) {
-                    cell.element.innerHTML = '❌';
+                    const misflaggedImg = document.createElement('img');
+                    misflaggedImg.src = `${this.baseUrl}/assets/img/minesweeper/misflagged.png`;
+                    misflaggedImg.style.width = '14px';
+                    misflaggedImg.style.height = '14px';
+                    misflaggedImg.style.border = 'none';
+                    misflaggedImg.style.boxShadow = 'none';
+                    cell.element.innerHTML = '';
+                    cell.element.appendChild(misflaggedImg);
                 }
             }
         }
